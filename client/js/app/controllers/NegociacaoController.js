@@ -1,50 +1,35 @@
 class NegociacaoController {
+
   constructor() {
+        
     let $ = document.querySelector.bind(document);
-
-    this._inputData = $("#data");
-    this._inputQuantidade = $("#quantidade");
-    this._inputValor = $("#valor");
-
-    let self = this;
-
-    this._listaNegociacoes = new Proxy(new ListaNegociacoes(), {
-
-        get(target, prop, receiver) {
-
-            if(['adiciona', 'apagar'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
-
-                return function(){
-
-                  console.log(`método '${prop}' interceptado`);
-
-                Reflect.apply(target[prop], target, arguments);
-
-                  self._negociacoesView.update(target);
-
-                }
-        }
-
-        return Reflect.get(target, prop, receiver);
-      }
-    });
-
-    this._negociacoesView = new NegociacoesView($("#negociacoesView"));
-
-    this._negociacoesView.update(this._listaNegociacoes);
-    this._mensagem = new Mensagem();
-    this._mensagemView = new MensagemView($("#mensagemView"));
-    this._mensagemView.update(this._mensagem);
+    
+    this._inputData = $('#data');
+    this._inputQuantidade = $('#quantidade');
+    this._inputValor = $('#valor');
+     
+    this._listaNegociacoes = new Bind(
+        new ListaNegociacoes(), 
+        new NegociacoesView($('#negociacoesView')), 
+        'adiciona', 'esvazia');
+   
+    this._mensagem = new Bind(
+        new Mensagem(), new MensagemView($('#mensagemView')),
+        'texto');       
   }
 
   adiciona(event) {
+
     event.preventDefault();
-
     this._listaNegociacoes.adiciona(this._criaNegociacao());
+    this._mensagem.texto = 'Negociação adicionada com sucesso'; 
     this._limpaFormulario();
+  }
 
-    this._mensagem.texto = "Negociacao adicionada com sucesso";
-    this._mensagemView.update(this._mensagem);
+  apaga() {
+        
+    this._listaNegociacoes.esvazia();
+    this._mensagem.texto = 'Negociações apagadas com sucesso';
   }
 
   _criaNegociacao() {
@@ -61,10 +46,5 @@ class NegociacaoController {
     this._inputValor.value = 0.0;
 
     this._inputData.focus();
-  }
-
-  limparNegociacoes() {
-    this._listaNegociacoes.apagar();
-    
   }
 }

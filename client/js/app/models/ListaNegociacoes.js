@@ -13,7 +13,12 @@ class ListaNegociacoes {
         return [].concat(this._negociacoes);
     }
 
-    apagar(){
+    esvazia() {
+        
         this._negociacoes = [];
     }
+
+    get volumeTotal() {
+        return this._negociacoes.reduce((total, n) => total + n.volume, 0.0);
+     }
 }
