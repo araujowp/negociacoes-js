@@ -1,14 +1,11 @@
 class ListaNegociacoes {
 
-    constructor(atualizador) {
+    constructor() {
         this._negociacoes = []
-        this._atualizador = atualizador;
     }
 
     adiciona(negociacao) {
         this._negociacoes.push(negociacao);
-        this._atualizador(this);
-        // Reflect.apply(this._atualizador, this._contexto,[this]);
     }
     
     get negociacoes() {
@@ -18,7 +15,5 @@ class ListaNegociacoes {
 
     apagar(){
         this._negociacoes = [];
-        this._atualizador(this);
-        // Reflect.apply(this._atualizador, this._contexto, [this]);
     }
 }
