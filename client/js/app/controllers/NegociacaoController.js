@@ -12,7 +12,7 @@ class NegociacaoController {
 
         get(target, prop, receiver) {
 
-            if(['adiciona', 'limparNegociacoes'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
+            if(['adiciona', 'apagar'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
 
                 return function(){
 
@@ -28,9 +28,6 @@ class NegociacaoController {
         return Reflect.get(target, prop, receiver);
       }
     });
-
-    // this._listaNegociacoes = new ListaNegociacoes(model =>
-    //   this._negociacoesView.update(model));
 
     this._negociacoesView = new NegociacoesView($("#negociacoesView"));
 
@@ -68,5 +65,6 @@ class NegociacaoController {
 
   limparNegociacoes() {
     this._listaNegociacoes.apagar();
+    
   }
 }
